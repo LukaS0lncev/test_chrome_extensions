@@ -1,16 +1,20 @@
-var storage =  window.localStorage;
-
 $(function(){
     $(document).ready(function(){
-        let userAuth = getChromeStorage('userAuth');
-        if(userAuth) {
-            $("#formLoginMtsInput").val(userAuth.formLoginMtsInput);
-            $("#formPasswordMtsInput").val(userAuth.formPasswordMtsInput);
-            $("#formLoginRemedyInput").val(userAuth.formLoginRemedyInput);
-            $("#formPasswordRemedyInput").val(userAuth.formPasswordRemedyInput);
-            $("#formLoginBDInput").val(userAuth.formLoginBDInput);
-            $("#formPasswordBDInput").val(userAuth.formPasswordBDInput);
-        }
+        chrome.runtime.sendMessage({key: 'getUserAuth', data: {key: 'userAuth'}}, function  (response){
+            
+            //console.log('response',response);
+            alert(response);
+            if(response) {
+                //let userAuth = JSON.parse(response.json);
+                let userAuth = {};
+                $("#formLoginMtsInput").val(userAuth.formLoginMtsInput);
+                $("#formPasswordMtsInput").val(userAuth.formPasswordMtsInput);
+                $("#formLoginRemedyInput").val(userAuth.formLoginRemedyInput);
+                $("#formPasswordRemedyInput").val(userAuth.formPasswordRemedyInput);
+                $("#formLoginBDInput").val(userAuth.formLoginBDInput);
+                $("#formPasswordBDInput").val(userAuth.formPasswordBDInput);
+            }
+          });
     });  
 
     $("#assistant_form_save").click(function() {
@@ -29,18 +33,14 @@ $(function(){
             formPasswordBDInput: formPasswordBDInput
         };
         let userAuthJson = JSON.stringify(userAuth); 
-        setChromeStorage('userAuth', userAuthJson);
+        chrome.runtime.sendMessage({key: 'setUserAuth', data: {
+            key: 'userAuth', 
+            json: userAuthJson
+        }}, (res) => {});
         window.close();
     });
-
-    var getChromeStorage = function(key) {
-        let obj = storage.getItem(key);
-        return JSON.parse(obj);
-    }
-    
-    var setChromeStorage = function(key, value) {
-        storage.setItem(key, value);
-    }
     
 });
+
+
 
