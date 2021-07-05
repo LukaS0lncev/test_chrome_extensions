@@ -1,12 +1,16 @@
 {
     "manifest_version": 2,
     "name": "Assistant Plugins",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "permissions": [
       "storage",
       "cookies",
       "notifications",
-      "https://ajax.googleapis.com/*"
+      "https://ajax.googleapis.com/*",
+      "activeTab",
+      "contextMenus",
+      "tabs",
+      "<all_urls>"
       ],
 
     "icons": { 
@@ -23,7 +27,10 @@
       ],
     "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
     "background": {
-      "service_worker": "background.js"
+      "scripts": [
+        "background.js"
+      ],
+      "persistent": true
     },
     "browser_action": {
         "default_title": "Assistant Plugins", 

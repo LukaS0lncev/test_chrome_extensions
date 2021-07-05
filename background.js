@@ -1,28 +1,21 @@
-//// background.js ////
-
 var storage = chrome.storage.local;
-
-  chrome.runtime.sendMessage.addListener((message, sender, sendResponse) => {
-    if (message.key === 'get-user-data') {
-      sendResponse('demo-user');
-    }
-
-    if (message.key === 'getUserAuth') {
-        let key = message.data.key;
-        storage.get(key, function(result) {
-            let json = result[key];
-            if(json != undefined) {
-                //console.log(JSON.parse(json));
-                sendResponse(true);
-            } else {
-                sendResponse(false);
-            }
+var userAuthJson = false;
+  chrome.runtime.onConnect.addListener(function(port) {
+    console.assert(port.name == "userAuth");
+    port.onMessage.addListener(function(msg) {
+      if (msg.joke == "getUserAuthPopup") {
+        storage.get('userAuth', function(result) {
+          let json = result.userAuth;
+          if(json != undefined) {
+            userAuthJson = json;
+            port.postMessage({userAuthJson: userAuthJson});
+          } else {
+            userAuthJson = false;
+            port.postMessage({userAuthJson: userAuthJson});
+          }
         });
-    }
-
-    if (message.key === 'setUserAuth') {
-        let key = message.data.key, value = message.data.json;
-        storage.set({key: value});
-        //storage.set({[key]: value});
-    }
+      } else if(msg.joke == "setUserAuthPopup") {
+        storage.set({userAuth: msg.json});
+      }
+    });
   });

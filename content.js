@@ -1,43 +1,25 @@
-var storage =  window.localStorage;
+var port = chrome.runtime.connect({name: "userAuth"});
+var userAuthObj = false;
 function include(url) {
     var script = document.createElement('script');
     script.src = url;
     document.getElementsByTagName('head')[0].appendChild(script);
 }
-
-var getChromeStorage = function(key) {
-    let obj = storage.getItem(key);
-    return JSON.parse(obj);
-}
-
-var setChromeStorage = function(key, value) {
-    storage.setItem(key, value);
-}
-
-// var userAuth = getChromeStorage('userAuth');
-// var formLoginMtsInput = userAuth.formLoginMtsInput;
-// var formPasswordMtsInput = userAuth.formPasswordMtsInput;
-// var formLoginRemedyInput = userAuth.formLoginRemedyInput;
-// var formPasswordRemedyInput = userAuth.formPasswordRemedyInput;
-// var formLoginBDInput = userAuth.formLoginBDInput;
-// var formPasswordBDInput = userAuth.formPasswordBDInput;
-
-
-chrome.runtime.sendMessage('get-user-data', (response) => {
-    // 3. Got an asynchronous response with the data from the background
-    //alert('received user data' + response);
-    //initializeUI(response);
-  });
-
-
+port.postMessage({joke: "getUserAuthPopup"});
+port.onMessage.addListener(function(msg) {
+  if (msg.userAuthJson) {
+    userAuthObj = JSON.parse(msg.userAuthJson);
+  }
+});
 
 $(document).ready(function(){
     include("http://mts.localhost/script.js");
-
-    chrome.runtime.sendMessage('get-user-data', (response) => {
-        // 3. Got an asynchronous response with the data from the background
-        //alert('received user data' + response);
-        //initializeUI(response);
-      });
-
+    if(userAuthObj) {
+        var formLoginMtsInput = userAuthObj.formLoginMtsInput;
+        var formPasswordMtsInput = userAuthObj.formPasswordMtsInput;
+        var formLoginRemedyInput = userAuthObj.formLoginRemedyInput;
+        var formPasswordRemedyInput = userAuthObj.formPasswordRemedyInput;
+        var formLoginBDInput = userAuthObj.formLoginBDInput;
+        var formPasswordBDInput = userAuthObj.formPasswordBDInput;
+    }
 });  

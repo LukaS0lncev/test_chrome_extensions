@@ -1,20 +1,23 @@
+var port = chrome.runtime.connect({name: "userAuth"});
+var userAuthObj = false;
+port.postMessage({joke: "getUserAuthPopup"});
+port.onMessage.addListener(function(msg) {
+  if (msg.userAuthJson) {
+    userAuthObj = JSON.parse(msg.userAuthJson);
+  }
+});
+
+
 $(function(){
     $(document).ready(function(){
-        chrome.runtime.sendMessage({key: 'getUserAuth', data: {key: 'userAuth'}}, function  (response){
-            
-            //console.log('response',response);
-            alert(response);
-            if(response) {
-                //let userAuth = JSON.parse(response.json);
-                let userAuth = {};
-                $("#formLoginMtsInput").val(userAuth.formLoginMtsInput);
-                $("#formPasswordMtsInput").val(userAuth.formPasswordMtsInput);
-                $("#formLoginRemedyInput").val(userAuth.formLoginRemedyInput);
-                $("#formPasswordRemedyInput").val(userAuth.formPasswordRemedyInput);
-                $("#formLoginBDInput").val(userAuth.formLoginBDInput);
-                $("#formPasswordBDInput").val(userAuth.formPasswordBDInput);
-            }
-          });
+        if(userAuthObj) {
+            $("#formLoginMtsInput").val(userAuthObj.formLoginMtsInput);
+            $("#formPasswordMtsInput").val(userAuthObj.formPasswordMtsInput);
+            $("#formLoginRemedyInput").val(userAuthObj.formLoginRemedyInput);
+            $("#formPasswordRemedyInput").val(userAuthObj.formPasswordRemedyInput);
+            $("#formLoginBDInput").val(userAuthObj.formLoginBDInput);
+            $("#formPasswordBDInput").val(userAuthObj.formPasswordBDInput);
+        }
     });  
 
     $("#assistant_form_save").click(function() {
@@ -33,10 +36,7 @@ $(function(){
             formPasswordBDInput: formPasswordBDInput
         };
         let userAuthJson = JSON.stringify(userAuth); 
-        chrome.runtime.sendMessage({key: 'setUserAuth', data: {
-            key: 'userAuth', 
-            json: userAuthJson
-        }}, (res) => {});
+        port.postMessage({joke: "setUserAuthPopup", json: userAuthJson});
         window.close();
     });
     
