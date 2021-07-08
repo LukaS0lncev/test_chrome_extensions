@@ -5,6 +5,7 @@ function include(url) {
     script.src = url;
     document.getElementsByTagName('head')[0].appendChild(script);
 }
+
 port.postMessage({joke: "getUserAuthPopup"});
 port.onMessage.addListener(function(msg) {
   if (msg.userAuthJson) {
@@ -12,8 +13,11 @@ port.onMessage.addListener(function(msg) {
   }
 });
 
+
+
+
 $(document).ready(function(){
-    include("http://mts.localhost/script.js");
+
     if(userAuthObj) {
         var formLoginMtsInput = userAuthObj.formLoginMtsInput;
         var formPasswordMtsInput = userAuthObj.formPasswordMtsInput;
@@ -21,5 +25,6 @@ $(document).ready(function(){
         var formPasswordRemedyInput = userAuthObj.formPasswordRemedyInput;
         var formLoginBDInput = userAuthObj.formLoginBDInput;
         var formPasswordBDInput = userAuthObj.formPasswordBDInput;
+        //alert(formLoginMtsInput);
     }
 });  
