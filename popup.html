@@ -11,6 +11,14 @@
 
         <div class="card" style="width: 36rem;">
             <div class="card-body">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="authCheck">
+                <label class="form-check-label" for="authCheck">Включить авто авторизацию?</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="fecusPluginCheck">
+                <label class="form-check-label" for="fecusPluginCheck">Включить плагин фецуса?</label>
+              </div>
               <h5 class="card-title">Системный логин и пароль МТС</h5>
               <div class="form-group">
                 <label for="formLoginMtsInput">Логин МТС</label>
@@ -31,6 +39,16 @@
                 <input type="text" class="form-control" id="formPasswordRemedyInput" placeholder="Пароль МТС">
               </div>
               <hr>
+              <h5 class="card-title">Remedy МГТС</h5>
+              <div class="form-group">
+                <label for="formLoginRemedyMgtsInput">Логин Remedy МГТС</label>
+                <input type="text" class="form-control" id="formLoginRemedyMgtsInput" placeholder="Логин МГТС">
+              </div>
+              <div class="form-group">
+                <label for="formPasswordRemedyMgtsInput">Пароль Remedy МГТС</label>
+                <input type="text" class="form-control" id="formPasswordRemedyMgtsInput" placeholder="Пароль МГТС">
+              </div>
+              <hr>
               <h5 class="card-title">Логин и пароль от базы данных</h5>
               <div class="form-group">
                 <label for="formLoginBDInput">Логин от базы</label>
@@ -40,6 +58,27 @@
                 <label for="formPasswordBDInput">Пароль от базы</label>
                 <input type="text" class="form-control" id="formPasswordBDInput" placeholder="Пароль от базы">
               </div>
+              <hr>
+              <h5 class="card-title">База данных Самары</h5>
+              <div class="form-group">
+                <label for="formLoginBDSamara">Логин</label>
+                <input type="text" class="form-control" id="formLoginBDSamara" placeholder="Логин от системы">
+              </div>
+              <div class="form-group">
+                <label for="formPasswordBDSamara">Пароль</label>
+                <input type="text" class="form-control" id="formPasswordBDSamara" placeholder="Пароль от системы">
+              </div>
+              <hr>
+              <h5 class="card-title">База данных Тольятти</h5>
+              <div class="form-group">
+                <label for="formLoginBDTolyatti">Логин</label>
+                <input type="text" class="form-control" id="formLoginBDTolyatti" placeholder="Логин от системы">
+              </div>
+              <div class="form-group">
+                <label for="formPasswordBDTolyatti">Пароль</label>
+                <input type="text" class="form-control" id="formPasswordBDTolyatti" placeholder="Пароль от системы">
+              </div>
+
             </div>
             <button id="assistant_form_save" class="btn btn-primary">Сохранить</button>
         </div>
